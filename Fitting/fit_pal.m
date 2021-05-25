@@ -8,7 +8,7 @@ P_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/non-dividing.mat')
 %%
 %averaged cell
 
-guess=[0.0102 0.0056 1.28e9 1.62e5]; %Dc, Db, beta0, N
+guess=[0.01 0.001 1.28e9 3e5]; %Dc, Db, beta0, N
 
 %renormalise data to tolb/pal concentration after bleach, change so 
 %normalised to 1 on x, multiply by average concentration of total tolb/pal 
