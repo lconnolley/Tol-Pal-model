@@ -1,28 +1,29 @@
-function pal = spatialFRAP_Pal_d(Dc,Db,beta0,N)
+function pal = spatialFRAP_Pal_d(a,b,beta0)
 
-P=load('Pal_dividing.mat');
+P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');
+
+lngth=cellfun('size',P.cells,1);
+L=median(lngth)*P.pixelsize
 
 %find steady state solution for ICs
-[w1,w2,w3,w4]=steady_state_d(Dc,Db,beta0,N);
+[w1,w2,w3,w4]=steady_state_d(a,b,beta0,L);
 
 disp('Starting Pal pdepe solver...')
 
 %constants and parameters
-L=3;
-x=-L/2:0.01*L:L/2;
+x=-L/2:0.005*L:L/2;
 t=P.t; 
 
-
-%Dc=0.02;          %Dc>0.008
-%Db=0.002;           
+Dc=(b*a)/(b-1)
+Db=a/(b-1)
+beta0
 Df=Dc;              %Victor's paper
 Dp=0.000;
 alpha=5.4e4;        %Papadakos paper
-%beta0=4e8;
 gamma=0.006;        %Papadakos paper
 kon=1e-3;            %Colin's estimate was 1e5-1e6
 koff=1;            %Colin's estimate was 1-10
-%N=1.16e5;
+N=1.7e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -32,35 +33,36 @@ bleach=interp1(-L/2:0.02*L:L/2,P.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.05;
-beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
+sigma=0.1;
+baseline=0;
+beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + baseline;%truncated normal
 i = trapz(x,beta(mu,x));
-beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2
+beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + baseline); %normalise to 2
 
 q = trapz(x,beta(mu,x));
 if q<1.99 || q>2.01
     error('Integral of beta function not equal to one.')
 end
-    
-m=0;
-%options=odeset('RelTol',1e-6,'AbsTol',1e-8);
-sol = pdepe(m,@pdes,@ic,@bc,x,t);      
-c = sol(:,:,1); 
-b = sol(:,:,2);
-f = sol(:,:,3);
-p = sol(:,:,4);
 
+%{
+figure(1)
+clf
+plot(-1/2:0.01:1/2,beta(mu,x))
+%}
+
+m=0;
+sol = pdepe(m,@pdes,@ic,@bc,x,t);      
 cv = sol(:,:,5);
 fv = sol(:,:,6);
 pv = sol(:,:,7);
 
-[m,~]=size(c);
+[m,~]=size(cv);
 if m < length(t)
-    pal=ones(length(t),length(x));
+    pal=ones(length(x),length(t)+1);%if fails set solution to 1s
 else
-    pal=cv+fv+pv;
+    factor=trapz(cv(1,:)+fv(1,:)+pv(1,:))/trapz(w1+w3+w4);
+    pal=[(w1+w3+w4)*factor;cv+fv+pv]';
 end
-pal=pal';
 
 %{
 figure(1)
@@ -75,7 +77,6 @@ clf
 imagesc(t,x,pal)
 title('Pal')
 %}
-
 
 disp('Pal pdepe solver completed.')
 

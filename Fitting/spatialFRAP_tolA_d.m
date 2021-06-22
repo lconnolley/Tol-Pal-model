@@ -1,29 +1,30 @@
-function pal = spatialFRAP_tolA_d(Dc,Db,beta0,N)
+function pal = spatialFRAP_tolA_d(a,b,beta0)
 
 A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
 
+lngth=cellfun('size',A.cells,1);
+L=median(lngth)*A.pixelsize;
 
 %find steady state solution for ICs
-[w1,w2,w3,w4]=steady_state_d(Dc,Db,0,N);
+[w1,w2,w3,w4]=steady_state_tolA(a,b,0,L);
 
 disp('Starting tolA pdepe solver...')
 
 %constants and parameters
-L=3;
-x=-L/2:0.01*L:L/2;
+x=-L/2:0.005*L:L/2;
 t=A.t; 
 
 
-%Dc=0.02;          %Dc>0.008
-%Db=0.002;           
-Df=Dc;              %Victor's paper
+Dc=(b*a)/(b-1);
+Db=a/(b-1);           
+Df=Dc;
 Dp=0.000;
-alpha=5.4e4;        %Papadakos paper
-beta0=0;
-gamma=0.006;        %Papadakos paper
-kon=1e-3;            %Colin's estimate was 1e5-1e6
-koff=1;            %Colin's estimate was 1-10
-%N=1.16e5;
+alpha=5.4e4;
+beta0=0;%tolA mutant, no sink
+gamma=0.006;
+kon=1e-3;
+koff=1;       
+N=1.7e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -46,22 +47,17 @@ end
 m=0;
 %options=odeset('RelTol',1e-6,'AbsTol',1e-8);
 sol = pdepe(m,@pdes,@ic,@bc,x,t);      
-c = sol(:,:,1); 
-b = sol(:,:,2);
-f = sol(:,:,3);
-p = sol(:,:,4);
-
 cv = sol(:,:,5);
 fv = sol(:,:,6);
 pv = sol(:,:,7);
 
-[m,~]=size(c);
+[m,~]=size(cv);
 if m < length(t)
-    pal=ones(length(t),length(x));
+    pal=ones(length(x),length(t)+1);
 else
-    pal=cv+fv+pv;
+    factor=trapz(cv(1,:)+fv(1,:)+pv(1,:))/trapz(w1+w3+w4);
+    pal=[(w1+w3+w4)*factor;cv+fv+pv]';
 end
-pal=pal';
 
 %{
 figure(1)

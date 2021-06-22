@@ -23,5 +23,5 @@ tolA_00002=cells(6,:);
 tolA_0=cells(7,:);
 tolA_KO=cells(8,:);
 
-save('TolA_ara_distribution.mat','tolA*','cell_lengths','cells')
+%save('TolA_ara_distribution.mat','tolA*','cell_lengths','cells')
 

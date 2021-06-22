@@ -33,9 +33,9 @@ function [c,f,s] = pdes(~,~,w,DwDx)
 
 c=[1; 1; 1; 1];
 f=[Dc; Db; Df; Dp].*DwDx; 
-s=[+(alpha*w(2)*w(3)) - beta0*w(1) - gamma*w(1);       %Complex
-   -(alpha*w(2)*w(3)) + beta0*w(1) + gamma*w(1);       %TolB
-   -(alpha*w(2)*w(3)) + beta0*w(1) + gamma*w(1) - kon*w(3)*(N - w(4)) + koff*w(4);   %Free Pal
+s=[+(alpha*w(2)*w(3)) - (beta0/L)*w(1) - gamma*w(1);       %Complex
+   -(alpha*w(2)*w(3)) + (beta0/L)*w(1) + gamma*w(1);       %TolB
+   -(alpha*w(2)*w(3)) + (beta0/L)*w(1) + gamma*w(1) - kon*w(3)*(N - w(4)) + koff*w(4);   %Free Pal
    +kon*w(3)*(N - w(4)) - koff*w(4)];                             %Bound Pal
 
 end

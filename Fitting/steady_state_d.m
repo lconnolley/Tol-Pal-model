@@ -1,4 +1,4 @@
-function [w1,w2,w3,w4] = steady_state_d(Dc,Db,beta0,N)
+function [w1,w2,w3,w4] = steady_state_d(a,b,beta0,L)
 
 %--------------------------------------------------------------------------
 %
@@ -7,36 +7,38 @@ function [w1,w2,w3,w4] = steady_state_d(Dc,Db,beta0,N)
 %--------------------------------------------------------------------------
 
 %constants and parameters
-L=3;
-x=-L/2:0.01*L:L/2;
+x=-L/2:0.005*L:L/2;
 t=0:60*2:60*20; 
 
-    
+disp('Finding steady state...')
 
-
-%Dc=0.02; 
-%Db=0.005; 
-Df=Dc;             %Victor's paper
+Dc=(b*a)/(b-1);
+Db=a/(b-1);   
+Df=Dc;
 Dp=0.000;
-alpha=5.4e4;        %Papadakos paper
-%beta0=2e7; 
-gamma=0.006;        %Papadakosteady_state_d(s paper
-kon=1e-3;            %Colin's estimate was 1e5-1e6
-koff=1;            %Colin's estimate was 1-10
-%N=1.16e5;
+alpha=5.4e4;
+gamma=0.006;
+kon=1e-3;
+koff=1;
+N=1.7e5;
 
 
 %shape of sink, beta
 mu=0;
-sigma=0.05;
-beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
+baseline=0;
+sigma=0.1;
+beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline;%truncated normal
 i = trapz(x,beta(mu,x));
-beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2
+beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline); %normalise to 2
 
 q = trapz(x,beta(mu,x));
 if q<1.99 || q>2.01
     error('Integral of beta function not equal to two.')
 end
+
+figure(11)
+clf
+plot(x,beta(mu,x))
 
 m=0;
 sol = pdepe(m,@pdes,@ic,@bc,x,t);
@@ -71,9 +73,11 @@ imagesc(t,x,w1'+w2')
 title('TolB')
 %}
 
+disp('Steady state completed')
+
 % --------------------------------------------------------------
 
-function [c,f,s] = pdes(x,t,w,DwDx)
+function [c,f,s] = pdes(x,~,w,DwDx)
 
 c=[1; 1; 1; 1];
 f=[Dc; Db; Df; Dp].*DwDx; 

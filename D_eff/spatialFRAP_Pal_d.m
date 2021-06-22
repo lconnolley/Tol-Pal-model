@@ -2,8 +2,8 @@ function [pal]=spatialFRAP_Pal_d(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma)
 
 P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Fitting/Pal_dividing.mat');
 
-lngth=cellfun('length',P.cells);
-L=mean(lngth)*P.pixelsize;
+lngth=cellfun('size',P.cells,1);
+L=median(lngth)*P.pixelsize;
 
 %constants and parameters
 x=-L/2:0.005*L:L/2;

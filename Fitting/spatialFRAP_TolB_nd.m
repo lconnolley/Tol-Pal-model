@@ -1,27 +1,30 @@
-function tolb=spatialFRAP_TolB_nd(Dc,Db,beta0,N)
+function tolb=spatialFRAP_TolB_nd(a,b,beta0)
 
 B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s_150s.mat');
 
-%find steady state solution for ICs
-[w1,w2,w3,w4]=steady_state_nd(Dc,Db,beta0,N);
+lngth=cellfun('size',B.cells,1);
+L=median(lngth)*B.pixelsize;
 
-%disp('Starting TolB pdepe solver...')
+%find steady state solution for ICs
+[w1,w2,w3,w4]=steady_state_nd(a,b,beta0,L);
+
+disp('Starting TolB pdepe solver...')
 
 %constants and parameters
-L=1.5;
-x=-L/2:0.01*L:L/2;
+lngth=cellfun('length',B.cells);
+L=median(lngth)*B.pixelsize;
+x=-L/2:0.005*L:L/2;
 t=B.t;
 
-%Dc=0.02;
-%Db=0.008;
-Df=Dc;              %Victor's paper
+Dc=(b*a)/(b-1);
+Db=a/(b-1);
+Df=Dc;
 Dp=0.000;
-alpha=5.4e4;        %Papadakos paper
-%beta0=9.48e8;
-gamma=0.006;        %Papadakos paper
-kon=1e-3;            %estimate
-koff=1;            %estimate
-%N=1.53e5;
+alpha=5.4e4;
+gamma=0.006;
+kon=1e-3;
+koff=1;
+N=1.7e5;
 
 %define variable to get around limitations defining initial conditions
 xcopy=x;
@@ -32,24 +35,19 @@ bleach=interp1(-L/2:0.02*L:L/2,B.bleach,x);
 m=0;
 %options=odeset('RelTol',100,'AbsTol',1);
 sol=pdepe(m,@pdes,@ic,@bc,x,t);
-c = sol(:,:,1); %visible complex
-b = sol(:,:,2); %visible tolb
-f = sol(:,:,3);  %free pal
-p = sol(:,:,4);  %bound pal
-
 cv = sol(:,:,5); %bleached complex
 bv = sol(:,:,6); %bleached tolb
 
-[m,n]=size(c);
+[m,~]=size(cv);
 if m < length(t)
-    tolb = ones(length(t),length(x));
+    tolb = ones(length(x),length(t)+1);
 else
-    tolb=cv+bv;
+    factor=trapz(cv(1,:)+bv(1,:))/trapz(w1+w2);
+    tolb=[(w1+w2)*factor; cv+bv]';
 end
-tolb=tolb';
 
 
-%disp('TolB pdepe solver completed.')
+disp('TolB pdepe solver completed.')
 
 %{
 figure(3)
@@ -69,13 +67,13 @@ function [c,f,s] = pdes(~,~,w,DwDx)
     
 c=[1; 1; 1; 1; 1; 1];
 f=[Dc; Db; Df; Dp; Dc; Db].*DwDx; 
-s=[+alpha*w(2)*w(3) - beta0*w(1) - gamma*w(1);       %Total complex
-   -alpha*w(2)*w(3) + beta0*w(1) + gamma*w(1);       %Total TolB
-   -alpha*w(2)*w(3) + beta0*w(1) + gamma*w(1) - kon*w(3)*(N-w(4)) + koff*w(4);       %Total free Pal
-   +kon*w(3)*(N-w(4)) - koff*w(4);                            %Total bound Pal
+s=[+alpha*w(2)*w(3) - (beta0/L)*w(1) - gamma*w(1);       %Total complex
+   -alpha*w(2)*w(3) + (beta0/L)*w(1) + gamma*w(1);       %Total TolB
+   -alpha*w(2)*w(3) + (beta0/L)*w(1) + gamma*w(1) - kon*w(3)*(N-w(4)) + koff*w(4);       %Total free Pal
+   +kon*w(3)*(N-w(4)) - koff*w(4);                       %Total bound Pal
    
-   +alpha*w(6)*w(3) - beta0*w(5) - gamma*w(5);       %Visible complex
-   -alpha*w(6)*w(3) + beta0*w(5) + gamma*w(5)];      %Visible TolB
+   +alpha*w(6)*w(3) - (beta0/L)*w(5) - gamma*w(5);       %Visible complex
+   -alpha*w(6)*w(3) + (beta0/L)*w(5) + gamma*w(5)];      %Visible TolB
    
 end
 

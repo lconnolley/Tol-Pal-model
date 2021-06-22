@@ -1,10 +1,10 @@
 function [palA]=spatialFRAP_Pal_A(Dc,Db,alpha,~,gamma,kon,koff,N,sigma)
 
-P_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Fitting/Pal_dividing.mat');
+%P_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Fitting/Pal_dividing.mat');
 A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
 
-lngth=cellfun('length',A.cells);
-L=mean(lngth)*A.pixelsize;
+lngth=cellfun('size',A.cells,1);
+L=median(lngth)*A.pixelsize;
 
 %constants and parameters
 x=-L/2:0.005*L:L/2;
@@ -29,7 +29,7 @@ end
 xcopy = x;
 
 %extend bleach to match finer length scale
-bleach_d=interp1(-L/2:0.02*L:L/2,P_d.bleach,x);
+bleach_d=interp1(-L/2:0.02*L:L/2,A.bleach,x);
 
 %find steady state solution for ICs
 [w1A,w2A,w3A,w4A]=steady_state_d(Dc,Db,alpha,beta0_A,gamma,kon,koff,N,sigma,L);

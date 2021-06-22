@@ -23,8 +23,8 @@ end
 
 function out=cost(A,B)
     
-         %out=1e5*immse(A,B);
-         out=10*immsre(A,B);
+         out=1e5*immse(A,B);
+         %out=10*immsre(A,B);
          %out=1e2*JS(A,B);
 end
 

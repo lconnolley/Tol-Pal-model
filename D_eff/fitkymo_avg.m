@@ -1,16 +1,17 @@
-function [x,fval,x2,fval2]=fitkymo(t,data,guess)
+function [x,fval,x2,fval2]=fitkymo_avg(t,data,guess)
+
 
 %Fickian diffusion, d is the diffusion constant
 fun=@(d) cost(data(:,2:end), spatialFRAP(t,data(:,2),d));
 options=optimoptions('patternsearch','UseParallel',true,'UseCompletePoll',true,'InitialMeshSize',0.1);
-[x,fval,exitflag,output] = patternsearch(fun,guess,[],[],[],[],0,[],[],options);
+[x,fval,~,~] = patternsearch(fun,guess,[],[],[],[],0,[],[],options);
 
 
 %Fokker-Planck diffusion, d a the proportionality constant
 fun=@(d) cost(data(:,2:end), spatialFRAP(t,data(:,2),d./data(:,1)/length(data(:,1))));
 %fun=@(d) JS(data(:,2:end), spatialFRAP(data(:,2),d./data(:,1)/length(data(:,1))));
 options=optimoptions('patternsearch','UseParallel',true,'UseCompletePoll',true,'InitialMeshSize',0.1);
-[x2,fval2,exitflag,output] = patternsearch(fun,guess,[],[],[],[],0,[],[],options);
+[x2,fval2,~,~] = patternsearch(fun,guess,[],[],[],[],0,[],[],options);
 
 %---------------------------------------------------------------
 

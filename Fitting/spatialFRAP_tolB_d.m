@@ -1,35 +1,35 @@
-function pal = spatialFRAP_tolB_d(Dc,Db,beta0,N)
+function pal = spatialFRAP_tolB_d(a,b,beta0)
 
-A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
+B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
 
+lngth=cellfun('size',B.cells,1);
+L=median(lngth)*B.pixelsize;
 
 %find steady state solution for ICs
-[w1,w2,w3,w4]=steady_state_tolB(Dc,Db,beta0,N);
+[w1,w2,w3,w4]=steady_state_tolB(a,b,beta0,L);
 
 disp('Starting tolB pdepe solver...')
 
 %constants and parameters
-L=3;
-x=-L/2:0.01*L:L/2;
-t=A.t; 
+x=-L/2:0.005*L:L/2;
+t=B.t; 
 
 
-%Dc=0.02;          %Dc>0.008
-%Db=0.002;           
-Df=Dc;              %Victor's paper
+Dc=(b*a)/(b-1);
+Db=a/(b-1);             
+Df=Dc;
 Dp=0.000;
-alpha=0;        %Papadakos paper
-%beta0=;
-gamma=0.006;        %Papadakos paper
-kon=1e-3;            %Colin's estimate was 1e5-1e6
-koff=1;            %Colin's estimate was 1-10
-%N=1.16e5;
+alpha=0;       
+gamma=0.006;
+kon=1e-3;
+koff=1;
+N=1.7e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
 
 %extend bleach to match finer length scale
-bleach=interp1(-L/2:0.02*L:L/2,A.bleach,x);
+bleach=interp1(-L/2:0.02*L:L/2,B.bleach,x);
 
 %shape of sink, beta
 mu=0;
@@ -46,22 +46,18 @@ end
 m=0;
 %options=odeset('RelTol',1e-6,'AbsTol',1e-8);
 sol = pdepe(m,@pdes,@ic,@bc,x,t);      
-c = sol(:,:,1); 
-b = sol(:,:,2);
-f = sol(:,:,3);
-p = sol(:,:,4);
-
 cv = sol(:,:,5);
 fv = sol(:,:,6);
 pv = sol(:,:,7);
 
-[m,~]=size(c);
+[m,~]=size(cv);
 if m < length(t)
-    pal=ones(length(t),length(x));
+    pal=ones(length(x),length(t)+1);
 else
-    pal=cv+fv+pv;
+    factor=trapz(cv(1,:)+fv(1,:)+pv(1,:))/trapz(w1+w3+w4);
+    pal=[(w1+w3+w4)*factor;cv+fv+pv]';
 end
-pal=pal';
+
 
 %{
 figure(1)
