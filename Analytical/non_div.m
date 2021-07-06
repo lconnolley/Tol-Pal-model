@@ -11,8 +11,21 @@ sol=pdepe(m,@pdes,@ic,@bc,x,t);
 Bin=sol(:,:,1);
 Bout=sol(:,:,2);
 
+time=size(t)
+vec=size(Bout)
+
 Bin=Bin(end,:);
 Bout=Bout(end,:);
+
+figure(5)
+clf
+plot(x,Bin,'DisplayName','Bin-pdepe')
+hold on
+plot(x,Bout,'DisplayName','Bout-pdepe')
+yline(1/(1+1/b),'--','color',[0, 0.447, 0.741],'DisplayName','Bin')
+yline(1/(1+b),'--','color',[0.85, 0.325, 0.098],'DisplayName','Bout')
+hold off
+legend
 
 %{
 figure(1)
@@ -25,11 +38,11 @@ legend
 %}
 % -------------------------------------------------------------------------
 
-    function [c,f,s] = pdes(x,~,w,DwDx)
+    function [c,f,s] = pdes(~,~,w,DwDx)
         c=[1; 1];
-        f=[d; 1].*DwDx;
-        s=[-a*w(1) + b*w(2); %Bin
-           +a*w(1) - b*w(2)]; %Bout
+        f=[1; d].*DwDx;
+        s=[-a*w(1) + a*b*w(2); %Bin
+           +a*w(1) - a*b*w(2)]; %Bout
     end
 
     function u0 = ic(~)

@@ -38,7 +38,7 @@ deff_nd=Pnd_diff./Pnd_data(:,1)/length(Pnd_data(:,1));
 %fit model to experimental data
 
 %guess=[a, b, beta0]
-guess=[0.007 1.4953 4.091e9]; %a=Dc-Db, b=Dc/Db, beta0
+guess=[0.0071 2.8684 1.3662e9]; %a=Dc-Db, b=Dc/Db, beta0
 
 tic
 [d,fval]=fitkymo_pal(div,non_div,deff_d1,deff_nd,guess);

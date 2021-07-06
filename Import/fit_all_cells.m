@@ -9,8 +9,8 @@ for i=1:length(cells)
 data=cells{i};
 data=bindata(data,binfact);%use pixel binning to correct for oversampling (confocal microscope)
 
-data2=data(3:end-2,:);%take off end, no normalisation(3:end-2)
-data=data(3:end-2,:)*diag(1./sum(data(3:end-2,:),1));%take off the ends and normalise
+data2=data(4:end-3,:);%take off end, no normalisation(3:end-2)
+data=data(4:end-3,:)*diag(1./sum(data(4:end-3,:),1));%take off the ends and normalise
 
 npixels(i)=length(data(:,1));
 

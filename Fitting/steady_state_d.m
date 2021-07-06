@@ -26,7 +26,7 @@ N=1.7e5;
 %shape of sink, beta
 mu=0;
 baseline=0;
-sigma=0.1;
+sigma=0.07;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline;%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline); %normalise to 2
@@ -36,9 +36,9 @@ if q<1.99 || q>2.01
     error('Integral of beta function not equal to two.')
 end
 
-figure(11)
-clf
-plot(x,beta(mu,x))
+%figure(11)
+%clf
+%plot(x,beta(mu,x))
 
 m=0;
 sol = pdepe(m,@pdes,@ic,@bc,x,t);

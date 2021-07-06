@@ -6,7 +6,7 @@ clear all
 %load data
 
 Bd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_dividing_nopeaks.mat');
-Bnd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s_150s.mat');
+Bnd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s.mat');
 
 %%
 %calculate average cell length in um
@@ -19,9 +19,7 @@ Lnd=median(lngth)*Bnd.pixelsize;
 %set parameter choice
 
 %From fitting, [Dc, Db, beta0, N]
-%d=[0.0289, 0.0067, 5.6685e10, 1.7e5];
-d=[0.015, 0.008, 1.28e9, 1.7e5];%old
-d=[0.0153, 0.008, 3.9381e9, 17e5];
+d=[0.0129, 0.0057, 2.1748e9, 1.7e5];
 
 Dc=d(1);
 Db=d(2);
@@ -76,8 +74,8 @@ clf
 plot(-1/2:0.02:1/2,deff_nd,'DisplayName','Exp - non-div')
 hold on
 plot(-1/2:0.02:1/2,deff_d,'DisplayName','Exp - div')
-plot(x,Deff0*(Lnd*0.005)^2,'DisplayName','Sim - non-div')
-plot(x,Deff*(Ld*0.005)^2,'DisplayName','Sim - div')
+plot(-1/2:0.005:1/2,Deff0*(Lnd*0.005)^2,'DisplayName','Sim - non-div')
+plot(-1/2:0.005:1/2,Deff*(Ld*0.005)^2,'DisplayName','Sim - div')
 hold off
 xlabel('Relative position')
 ylabel('Effective diffusion coefficient')

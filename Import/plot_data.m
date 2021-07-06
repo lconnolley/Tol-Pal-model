@@ -6,7 +6,7 @@ x=-1/2:0.02:1/2;
 
 figure(1)
 clf;
-D_median(D_median>0.5)=NaN;%remove any bad cells
+D_median(D_median>1)=NaN;%remove any bad cells
 D=D(:,~isnan(D_median));
 violinplot(D_median');
 ylabel('Effective Diffusion constant (\mu m^2/s)')

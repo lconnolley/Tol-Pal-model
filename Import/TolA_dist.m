@@ -151,16 +151,18 @@ M_002=M_002-M_KO;
 M_02=M_02-M_KO;
 M_2=M_2-M_KO;
 
+%%
+
 figure(3)
 clf
 plot(x,M_chr,'DisplayName','WT')
 hold on
 plot(x,M_0,'DisplayName','0% ara')
-%plot(x,M_00002,'DisplayName','0.0002% ara')
-%plot(x,M_0002,'DisplayName','0.002% ara')
+plot(x,M_00002,'DisplayName','0.0002% ara')
+plot(x,M_0002,'DisplayName','0.002% ara')
 plot(x,M_002,'DisplayName','0.02% ara')
 plot(x,M_02,'DisplayName','0.2% ara')
-%plot(x,M_2,'DisplayName','2% ara')
+plot(x,M_2,'DisplayName','2% ara')
 hold off
 legend
 
@@ -209,6 +211,48 @@ beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu
 figure(5)
 clf
 plot(x,z,'DisplayName','0.2% ara')
+hold on
+plot(x,beta(mu,x),'DisplayName','Normal + baseline')
+hold off
+legend
+
+z=M_002;
+i=trapz(x,z);
+z=2/i * z;
+
+%shape of sink, beta
+mu=0;
+background=10;
+sigma=0.05*L;
+beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + background;%truncated normal
+i = trapz(x,beta(mu,x));
+beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + background);%normalise to 2
+
+
+figure(6)
+clf
+plot(x,z,'DisplayName','0.02% ara')
+hold on
+plot(x,beta(mu,x),'DisplayName','Normal + baseline')
+hold off
+legend
+
+z=M_0;
+i=trapz(x,z);
+z=2/i * z;
+
+%shape of sink, beta
+mu=0;
+background=10;
+sigma=0.05*L;
+beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + background;%truncated normal
+i = trapz(x,beta(mu,x));
+beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + background);%normalise to 2
+
+
+figure(7)
+clf
+plot(x,z,'DisplayName','0% ara')
 hold on
 plot(x,beta(mu,x),'DisplayName','Normal + baseline')
 hold off

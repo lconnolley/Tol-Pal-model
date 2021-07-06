@@ -3,7 +3,7 @@ function pal = spatialFRAP_Pal_d(a,b,beta0)
 P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');
 
 lngth=cellfun('size',P.cells,1);
-L=median(lngth)*P.pixelsize
+L=median(lngth)*P.pixelsize;
 
 %find steady state solution for ICs
 [w1,w2,w3,w4]=steady_state_d(a,b,beta0,L);
@@ -33,7 +33,7 @@ bleach=interp1(-L/2:0.02*L:L/2,P.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.1;
+sigma=0.07;
 baseline=0;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + baseline;%truncated normal
 i = trapz(x,beta(mu,x));

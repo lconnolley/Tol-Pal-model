@@ -7,7 +7,7 @@ clear
 B_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_dividing_nopeaks.mat');
 P_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');%Pal_dividing.mat');
 
-B_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s_150s.mat');
+B_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s.mat');
 P_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_nondividing_30s.mat');%/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/non-dividing.mat');
 
 A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
@@ -15,11 +15,10 @@ B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
 
 %%
 %parameters found from fitting
+z=load('fit_parameter.mat');
+%d =[a, b, beta0], a=Dc-Db, b=Dc/Db, beta0 
+d=z.d;
 
-%d =[a, b, beta0];
-d=[0.0073 1.9117 3.9381e9]; %a=Dc-Db, b=Dc/Db, beta0
-d=[0.007 2.5705 100.6028e9];%sigma=0.07
-    
 %%
 %preprocess experimental data into same units as model data
 
@@ -203,7 +202,7 @@ plot(x,w10,'--','color',[0.85, 0.325, 0.098],'DisplayName','Non-dividing - outer
 plot(x,w20,'--','color',[0, 0.447, 0.741],'Displayname','Non-dividing - inner')
 hold off
 legend
-ylim([0 18000])
+%ylim([0 18000])
 title('TolB concentration profile')
 
 nondiv=mean(w10);
@@ -212,7 +211,7 @@ div=mean(w1);
 %%
 %find Pal effective difusion coefficients
 
-%find average length of cvells in um
+%find average length of cells in um
 lngth=cellfun('size',P_d.cells,1);
 Pd_lngth=median(lngth)/50;
 lngth=cellfun('size',P_nd.cells,1);

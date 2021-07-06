@@ -2,9 +2,9 @@
 
 clear
 
-load('Pal_02_ara.mat');
+load('Pal_dividing_30s.mat');
 
- t=[-30; t']';
+ t=[-2; t']';
 
 i=1;
 while i<length(cells)+1
@@ -20,12 +20,11 @@ while i<length(cells)+1
     clf
     subplot(2,1,1)
     plot(data)
-    xlim([1 51])
     
     subplot(2,1,2)
     imagesc(t,[-1/2,1/2],data)
 
-    trapz(data)
+    trapz(data);
 
     i=i+1;
 end
