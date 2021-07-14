@@ -16,17 +16,17 @@ Dc=(b*a)/(b-1);
 Db=a/(b-1);   
 Df=Dc;
 Dp=0.000;
-alpha=5.4e4;
+alpha=5.4e-5;
 beta0=0;%tolA mutant, no sink
 gamma=0.006;
 kon=1e-3;
 koff=1;
-N=1.7e5;
+N=1.9e5;
 
 
 %shape of sink, beta
 mu=0;
-sigma=0.1;
+sigma=0.02;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2
@@ -76,6 +76,7 @@ plot(x,w1,'DisplayName','TolB - outer')
 hold on
 plot(x,w2,'DisplayName','TolB - inner')
 hold off
+ylim([0 max(max(w1), max(w2))+500])
 legend
 
 disp('Steady state completed')

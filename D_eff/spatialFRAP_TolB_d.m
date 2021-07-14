@@ -13,6 +13,7 @@ Df=Dc;              %Victor's paper
 Dp=0.00;
 
 %shape of sink, beta
+sigma=sigma*L;
 mu=0;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));

@@ -19,11 +19,11 @@ Db=a/(b-1)
 beta0
 Df=Dc;              %Victor's paper
 Dp=0.000;
-alpha=5.4e4;        %Papadakos paper
+alpha=5.4e-5;        %Papadakos paper
 gamma=0.006;        %Papadakos paper
 kon=1e-3;            %Colin's estimate was 1e5-1e6
 koff=1;            %Colin's estimate was 1-10
-N=1.7e5;
+N=1.9e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -33,7 +33,7 @@ bleach=interp1(-L/2:0.02*L:L/2,P.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.07;
+sigma=0.04*L;
 baseline=0;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + baseline;%truncated normal
 i = trapz(x,beta(mu,x));
@@ -44,10 +44,10 @@ if q<1.99 || q>2.01
     error('Integral of beta function not equal to one.')
 end
 
-%{
-figure(1)
+%
+figure(100)
 clf
-plot(-1/2:0.01:1/2,beta(mu,x))
+plot(-1/2:0.005:1/2,beta(mu,x))
 %}
 
 m=0;

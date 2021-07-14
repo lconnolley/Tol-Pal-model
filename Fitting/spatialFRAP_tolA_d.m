@@ -19,12 +19,12 @@ Dc=(b*a)/(b-1);
 Db=a/(b-1);           
 Df=Dc;
 Dp=0.000;
-alpha=5.4e4;
+alpha=5.4e-5;
 beta0=0;%tolA mutant, no sink
 gamma=0.006;
 kon=1e-3;
 koff=1;       
-N=1.7e5;
+N=1.9e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -34,7 +34,7 @@ bleach=interp1(-L/2:0.02*L:L/2,A.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.05;
+sigma=0.04*L;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2

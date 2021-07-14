@@ -16,17 +16,17 @@ Dc=(b*a)/(b-1);
 Db=a/(b-1);   
 Df=Dc;
 Dp=0.000;
-alpha=5.4e4;
+alpha=5.4e-5;
 gamma=0.006;
 kon=1e-3;
 koff=1;
-N=1.7e5;
+N=1.9e5;
 
 
 %shape of sink, beta
 mu=0;
 baseline=0;
-sigma=0.07;
+sigma=0.04*L;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline;%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma))+baseline); %normalise to 2

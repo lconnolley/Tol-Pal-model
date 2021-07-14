@@ -8,7 +8,7 @@ deff_nd=interp1(-1/2:0.02:1/2,deff_nd,-1/2:0.005:1/2)';
 fun=@(d) cost(div, spatialFRAP_Pal_d(d(1),d(2),d(3)), nondiv, spatialFRAP_Pal_nd(d(1),d(2),d(3)), deff_d, effective_diff_d(d(1),d(2),d(3)), deff_nd, effective_diff_nd(d(1),d(2),d(3)));
 %Pattern search
 options=optimoptions('patternsearch','UseParallel',true,'UseCompletePoll',true,'InitialMeshSize',0.1,'Display','iter');%,'StepTolerance',1e-9);
-[d,fval,~,~] = patternsearch(fun,guess,[],[],[],[],[0 1 1e7],[1 10 1e11],[],options); %a>0 s.t. Dc>Db, b>1 s.t. Db,Dc>0
+[d,fval,~,~] = patternsearch(fun,guess,[],[],[],[],[0 1 0],[1 10 1e2],[],options); %a>0 s.t. Dc>Db, b>1 s.t. Db,Dc>0
 
 %------------------------------------------------------------------
 

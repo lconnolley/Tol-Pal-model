@@ -2,8 +2,8 @@ clear all
 
 x=-1/2:0.01:1/2;
 
-[Bin_s, Bout_s] = conc_profile_s(50,100,1/5);
-[Bin_ns, Bout_ns] = conc_profile_ns(50,100,1/5);
+[Bin_s, Bout_s] = conc_profile_s(5000,100,2);
+[Bin_ns, Bout_ns] = conc_profile_ns(5000,100,2);
 
 figure(1)
 clf
@@ -17,6 +17,15 @@ legend
 
 d=trapz(x,Bout_s)
 nd=Bout_ns
+
+%%
+b=100;
+d=1;
+kappa=0.9;
+
+in = b / (b+1+(b*kappa)/d)
+
+out = (d+b*kappa) / (b*d + d + b*kappa)
 
 %%
 %Varying d

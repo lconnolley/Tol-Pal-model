@@ -16,27 +16,29 @@ B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
 %%
 %parameters found from fitting
 z=load('fit_parameter.mat');
-%d =[a, b, beta0], a=Dc-Db, b=Dc/Db, beta0 
+%d = [a, b, beta0], a=Dc-Db, b=Dc/Db, beta0 
 d=z.d;
 
+xs=-1/2:0.005:1/2;
 %%
 %preprocess experimental data into same units as model data
+xe=-1/2:0.02:1/2;
 
 %renormalise data to tolb/pal concentration after bleach, change so 
 %normalised to 1 on x, multiply by average concentration of total tolb/pal 
 %in a cell (uM), multiply by area under bleached curve
-tolb_d=(B_d.avg/trapz(B_d.avg(:,1)))*9.96e5*B_d.factor;                 %not sure why e5 not e3
-pal_d=(P_d.avg/trapz(P_d.avg(:,1)))*99.6e5*P_d.factor;
-tolb_nd=(B_nd.avg/trapz(B_nd.avg(:,1)))*9.96e5*B_nd.factor;
-pal_nd=(P_nd.avg/trapz(P_nd.avg(:,1)))*99.6e5*P_nd.factor;
-tolA=(A.avg/trapz(A.avg(:,1)))*99.6e5*A.factor;   %beta0=0
-tolB=(B.avg/trapz(B.avg(:,1)))*99.6e5*B.factor;   %alpha=0
+tolb_d=(B_d.avg/trapz(xe,B_d.avg(:,1)));%*9.96e5*B_d.factor;                 %not sure why e5 not e3
+pal_d=(P_d.avg/trapz(xe,P_d.avg(:,1)));%*99.6e5*P_d.factor;
+tolb_nd=(B_nd.avg/trapz(xe,B_nd.avg(:,1)));%*9.96e5*B_nd.factor;
+pal_nd=(P_nd.avg/trapz(xe,P_nd.avg(:,1)));%*99.6e5*P_nd.factor;
+tolA=(A.avg/trapz(xe,A.avg(:,1)));%*99.6e5*A.factor;   %beta0=0
+tolB=(B.avg/trapz(xe,B.avg(:,1)));%*99.6e5*B.factor;   %alpha=0
 
 %%
 %TolB dividing kymographs for experimental and model
 
 f1=spatialFRAP_TolB_d(d(1),d(2),d(3));
-factor=trapz(0:0.005:1,f1(:,1))/trapz(0:0.02:1,tolb_d(:,1));
+f1=f1./trapz(xs,f1(:,1));
 
 %bottom = min(min(min(tolb_d.*factor)),min(min(f1)));
 %top  = max(max(max(tolb_d.*factor)),max(max(f1)));
@@ -44,7 +46,7 @@ factor=trapz(0:0.005:1,f1(:,1))/trapz(0:0.02:1,tolb_d(:,1));
 figure(1)
 clf
 subplot(2,1,1)
-imagesc(-2:2:150,[-1/2,1/2],tolb_d.*factor)
+imagesc(-2:2:150,[-1/2,1/2],tolb_d)
 title('Average scaled data - TolB (dividing)')
 %caxis manual
 %caxis([bottom top]);
@@ -56,19 +58,22 @@ title('Computational - TolB (dividing)')
 %caxis([bottom top]);
 colorbar
 
+trapz(xe,tolb_d);
+trapz(xs,f1);
+
 %%
 %Pal dividing kymographs 
 
 g1=spatialFRAP_Pal_d(d(1),d(2),d(3));
-factor=trapz(0:0.005:1,g1(:,1))/trapz(0:0.02:1,pal_d(:,1));
+g1=g1./trapz(xs,g1(:,1));
 
-bottom = min(min(min(pal_d.*factor)),min(min(g1)));
-top  = max(max(max(pal_d.*factor)),max(max(g1)));
+bottom = min(min(min(pal_d)),min(min(g1)));
+top  = max(max(max(pal_d)),max(max(g1)));
 
 figure(2)
 clf
 subplot(2,1,1)
-imagesc(-30:30:600,[-1/2,1/2],pal_d.*factor)
+imagesc(-30:30:600,[-1/2,1/2],pal_d)
 title('Average scaled data - Pal (dividing)')
 caxis manual
 caxis([bottom top]);
@@ -80,19 +85,22 @@ caxis manual
 caxis([bottom top]);
 colorbar
 
+trapz(xs,g1);
+trapz(xe,pal_d);
+
 %%
 %TolB non-dividing kymographs
 
 f2=spatialFRAP_TolB_nd(d(1),d(2),d(3));
-factor=trapz(0:0.005:1,f2(:,1))/trapz(0:0.02:1,tolb_nd(:,1));
+f2=f2./trapz(xs,f2(:,1));
 
-bottom = min(min(min(tolb_nd.*factor)),min(min(f2)));
-top  = max(max(max(tolb_nd.*factor)),max(max(f2)));
+bottom = min(min(min(tolb_nd)),min(min(f2)));
+top  = max(max(max(tolb_nd)),max(max(f2)));
 
 figure(3)
 clf
 subplot(2,1,1)
-imagesc(-2:2:150,[-1/2,1/2],tolb_nd.*factor)
+imagesc(-2:2:150,[-1/2,1/2],tolb_nd)
 title('Average scaled data - TolB (non-dividing)')
 caxis manual 
 caxis ([bottom top])
@@ -108,15 +116,15 @@ colorbar
 %Pal non-dividing kymographs
 
 g2=spatialFRAP_Pal_nd(d(1),d(2),d(3));
-factor=trapz(0:0.005:1,g2(:,1))/trapz(0:0.02:1,pal_nd(:,1));
+g2=g2./trapz(xs,g2(:,1));
 
-bottom = min(min(min(pal_nd.*factor)),min(min(g2)));
-top  = max(max(max(pal_nd.*factor)),max(max(g2)));
+bottom = min(min(min(pal_nd)),min(min(g2)));
+top  = max(max(max(pal_nd)),max(max(g2)));
 
 figure(4)
 clf
 subplot(2,1,1)
-imagesc(-30:30:600,[-1/2,1/2],pal_nd.*factor)
+imagesc(-30:30:600,[-1/2,1/2],pal_nd)
 title('Average scaled data - Pal (non-dividing)')
 caxis manual
 caxis ([bottom top])
@@ -132,15 +140,15 @@ colorbar
 %tolA kymographs
 
 f3=spatialFRAP_tolA_d(d(1),d(2),0);
-factor=trapz(0:0.005:1,f3(:,1))/trapz(0:0.02:1,tolA(:,1));
+f3=f3./trapz(xs,f3(:,1));
 
-bottom = min(min(min(tolA.*factor)),min(min(f3)));
-top  = max(max(max(tolA.*factor)),max(max(f3)));
+bottom = min(min(min(tolA)),min(min(f3)));
+top  = max(max(max(tolA)),max(max(f3)));
 
 figure(5)
 clf
 subplot(2,1,1)
-imagesc(-2:2:10,[-1/2,1/2],tolA.*factor)
+imagesc(-2:2:10,[-1/2,1/2],tolA)
 title('Average scaled data - tolA')
 caxis manual
 caxis ([bottom top])
@@ -156,15 +164,15 @@ colorbar
 %tolB kymographs
 
 g3=spatialFRAP_tolB_d(d(1),d(2),d(3));
-factor=trapz(0:0.005:1,g3(:,1))/trapz(0:0.02:1,tolB(:,1));
+g3=g3./trapz(xs,g3(:,1));
 
-bottom = min(min(min(tolB.*factor)),min(min(g3)));
-top  = max(max(max(tolB.*factor)),max(max(g3)));
+bottom = min(min(min(tolB)),min(min(g3)));
+top  = max(max(max(tolB)),max(max(g3)));
 
 figure(6)
 clf
 subplot(2,1,1)
-imagesc(-2:2:10,[-1/2,1/2],tolB.*factor)
+imagesc(-2:2:10,[-1/2,1/2],tolB)
 title('Average scaled data - tolB')
 caxis manual
 caxis ([bottom top])
@@ -202,11 +210,33 @@ plot(x,w10,'--','color',[0.85, 0.325, 0.098],'DisplayName','Non-dividing - outer
 plot(x,w20,'--','color',[0, 0.447, 0.741],'Displayname','Non-dividing - inner')
 hold off
 legend
-%ylim([0 18000])
+ylim([0 20000])
 title('TolB concentration profile')
 
-nondiv=mean(w10);
-div=mean(w1);
+trapz(w1)
+trapz(w2)
+
+%%
+
+%plot Pal concentration in inner and outer for dividing and non-dividing
+%cells
+x=-1/2:0.005:1/2;
+figure(9)
+clf
+plot(x,w1,'color',[0.85, 0.325, 0.098],'DisplayName','Dividing - complex')
+hold on
+plot(x,w3,'color',[0, 0.447, 0.741],'DisplayName','Dividing - free')
+plot(x,w4,'color',[0.9290, 0.6940, 0.1250],'DisplayName','Dividing - bound')
+plot(x,w10,'--','color',[0.85, 0.325, 0.098],'DisplayName','Non-dividing - complex')
+plot(x,w30,'--','color',[0, 0.447, 0.741],'Displayname','Non-dividing - free')
+plot(x,w30,'--','color',[0.9290, 0.6940, 0.1250],'Displayname','Non-dividing - bound')
+hold off
+legend
+%ylim([0 18000])
+title('Pal concentration profile')
+
+trapz(x,w1+w3+w4);
+trapz(x,w10+w30+w40);
 
 %%
 %find Pal effective difusion coefficients
@@ -270,3 +300,7 @@ plot(x,DeffB,'Color',[0.4940, 0.1840, 0.5560],'DisplayName','tolB')
 hold off
 ylim([0 2e-3])
 legend
+
+Deff_10=Deff;
+
+save('TolA_overexpression.mat','-append','Deff_10')

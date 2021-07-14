@@ -6,14 +6,15 @@
 %
 %--------------------------------------------------------------------------
 
-d=[0.0027, 6.656e-4, 8.28e8, 5.3e4, 1.28e5];%Dc, Db, beta0, N, kon
-d=[0.0027, 6.656e-4, 1.0e9, 5.3e4, 1.28e5];%Dc, Db, beta0, N, kon
-d=[0.0027, 0.0014, 7.95e8, 2e5, 1.0747e-3];%Dc, Db, beta0, N, kon
-d=[0.0027, 0.0014, 7.95e8, 3e6, 1e5];
+%d=[0.0027, 6.656e-4, 8.28e8, 5.3e4, 1.28e5];%Dc, Db, beta0, N, kon
+%d=[0.0027, 6.656e-4, 1.0e9, 5.3e4, 1.28e5];%Dc, Db, beta0, N, kon
+%d=[0.0027, 0.0014, 7.95e8, 2e5, 1.0747e-3];%Dc, Db, beta0, N, kon
+%d=[0.0027, 0.0014, 7.95e8, 3e6, 1e5];
+d=[0.0192, 0.0057, 2.17e-2, 2e5, 1e-3];
 
 %constants and parameters
 L=3;    %length of an average e. coli cell
-x_step=0.01;
+x_step=0.005;
 x=-L/2:x_step*3:L/2;
 x0=-L/4:x_step*L/2:L/4;
 x1=-1/2:x_step:1/2;
@@ -22,7 +23,7 @@ Dc=d(1);            %Dc>0.0125
 Db=d(2);           %Db<0.004
 Df=Dc;              %Victor's paper
 Dp=0.00;
-alpha=5.4e4;        %Papadakos paper
+alpha=5.4e-5;        %Papadakos paper
 beta0=d(3);
 gamma=0.006;        %Papadakos paper
 kon=d(5);             %estimate was 1e5-1e6 M^-1 s^-1
@@ -35,7 +36,7 @@ beta0_P=0;
 
 %shape of sink, beta
 mu=0;
-sigma=0.05;
+sigma=0.04*L;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2

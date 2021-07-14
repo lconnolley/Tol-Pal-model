@@ -19,25 +19,26 @@ Lnd=median(lngth)*Bnd.pixelsize;
 %set parameter choice
 
 %From fitting, [Dc, Db, beta0, N]
-d=[0.0129, 0.0057, 2.1748e9, 1.7e5];
+z=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Fitting/fit_parameter3.mat');
+d=[z.Dc, z.Db, z.d(3), 1.9e5];
 
 Dc=d(1);
 Db=d(2);
-Df=Dc;              %Victor's paper
+Df=Dc;              
 Dp=0.000;
-alpha=5.4e4;        %Papadakos paper
+alpha=5.4e-5;        
 beta0=d(3);
-gamma=0.006;        %Papadakos paper
-kon=1e-3;            %estimate was 1e5-1e6
-koff=1;            %estimate was 1-10
+gamma=0.006;        
+kon=1e-3;            
+koff=1;   
 N=d(4);
-sigma=0.05;
+sigma=0.04;
 
 %%
 %generate model kymograph data
 
-[w1,w2,w3,w4]=steady_state_d(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma,Ld);
-[w10,w20,w30,w40]=steady_state_nd(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma,Lnd);
+[w1,w2,w3,w4]=steady_state_d(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma*Ld,Ld);
+[w10,w20,w30,w40]=steady_state_nd(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma*Lnd,Lnd);
 
 tolb=spatialFRAP_TolB_d(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma);
 tolb0=spatialFRAP_TolB_nd(Dc,Db,alpha,beta0,gamma,kon,koff,N,sigma);
