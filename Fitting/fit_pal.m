@@ -45,7 +45,7 @@ Db=d(1)/(d(2)-1);
 beta0=d(3);
 %toc
 
-save('fit_parameter_new.mat','d','Dc','Db');%save parameter values found
+save('fit_parameter.mat','d','Dc','Db');%save parameter values found
 
 %% find prebleach steady state solution
 

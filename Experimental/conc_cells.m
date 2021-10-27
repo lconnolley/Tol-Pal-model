@@ -7,8 +7,8 @@ clear all
 z_1 = load('../Import/TolB_dividing_nopeaks.mat');
 z_2 = load('../Import/TolB_nondiv_2s.mat');
 
-%z_1 = load('Pal_dividing_30s.mat');
-%z_2 = load('Pal_nondividing_30s.mat');
+%z_1 = load('../Import/Pal_dividing_30s.mat');
+%z_2 = load('../Import/Pal_nondividing_30s.mat');
 
 %%
 
@@ -53,7 +53,7 @@ ylabel('Mean Fluorescence')
 %% load data
 clear all
 
-z_1 = load('TolA_IPTG_distribution.mat');
+z_1 = load('../Import/TolA_IPTG_distribution.mat');
 
 %%
 
