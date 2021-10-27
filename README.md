@@ -1,9 +1,9 @@
 # Tol-Pal-model
 MATLAB scripts for a model of the Tol-Pal system in E. coli. 
 
-Requirements: Matlab with Statistics (mean, median, bootci,..), Image Processing (immse), Global Optimization (patternsearch) and Parallel Computing toolboxes. Tested on MATLAB R2020b on Ubuntu.
+Requirements: MATLAB with Statistics (mean, median, bootci,..), Image Processing (immse), Global Optimization (patternsearch) and Parallel Computing toolboxes. Tested on MATLAB R2020b on Ubuntu.
 
-Analytical folder contains scripts to produce figures for the analytical toy model 
+**Analytical** folder contains scripts to produce figures for the analytical toy model 
 
 Functions:
 
@@ -19,7 +19,7 @@ Scripts:
 
 - steady_state.mat, stores the steady state results for the toy model
 
-Fitting folder contains all scripts to solve and fit to the full model
+**Fitting** folder contains all scripts to solve and fit to the full model
 
 Functions:
 
@@ -28,6 +28,7 @@ Functions:
 - fitkymo.m, uses "patternsearch" from MATLAB's optimisation toolbox to find the diffusion coefficient giving the best fit to the data using Fokker-Planck diffusion
 - fitkymo_pal.m, uses "patternsearch" from MATLAB's optimisation toolbox to find the best fit for the full model to the experimental data using the Pal (non-)dividing kymogrpahs and effective diffusion constants
 - immsre.m, the mean square relative error between two matrices (based on MATLAB's immse.m)
+- spatialFRAP.m, uses MATLAB's pdepe function to return a simulated kymograph given the intial data and diffusion coefficient, which may vary spatially
 - spatialFRAP_*.m, uses MATLAB's pdepe function to solve the full model for bleached initial conditions given values of the variables replicating spatialFRAP for either Pal in (non-)dividing cells or tolA, tolB mutants and TolB in (non-)dividing cells
 - steady_state_*.m, uses MATLAB's pdepe function to solve the full model and find the steady state  for either Pal in (non-)dividing cells or tolA, tolB mutants and TolB in (non-)dividing cells
 
@@ -40,14 +41,14 @@ Scripts:
 
 -fit_parameter.mat, stores the results of fitting
 
-Import folder contains all of the experimental data 
+**Import** folder contains all of the experimental data 
 
 .MAT files:
 
 - *.mat, MATLAB data files with fluorescence data, the pixel size and the binning factor to use, as well as the produced results
 
 
-Experimental folder contains files to plot all of the experimental data in Import
+**Experimental** folder contains files to plot all of the experimental data in Import
 
 Functions:
 
@@ -59,6 +60,7 @@ Functions:
 - plot_data.m, plot the results for a single dataset, also plots the average kymograph and the best fit to the average
 - shadederror.m, plot error bars as shading
 - spatialFRAP.m, uses MATLAB's PDE solver to return a simulated kymorgraph given the intial data and diffusion coefficient, which may vary spatially
+- Violin.m, function required by violinplot.m
 - violinplot.m, a function by Bastian Bechtold (available under a BSD 3-clause license from https://github.com/bastibe/Violinplot-Matlab)
 
 Scripts:
