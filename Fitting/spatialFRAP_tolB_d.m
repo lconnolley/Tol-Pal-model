@@ -1,6 +1,6 @@
 function pal = spatialFRAP_tolB_d(a,b,beta0)
 
-B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
+B=load('../Import/tolB_dividing.mat');
 
 lngth=cellfun('size',B.cells,1);
 L=median(lngth)*B.pixelsize;
@@ -21,9 +21,9 @@ Df=Dc;
 Dp=0.000;
 alpha=0;       
 gamma=0.006;
-kon=1e-3;
+kon=1e-4;
 koff=1;
-N=1.9e5;
+N=3.2e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -40,7 +40,7 @@ beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/
 
 q = trapz(x,beta(mu,x));
 if q<1.99 || q>2.01
-    error('Integral of beta function not equal to one.')
+    error('Integral of beta function not equal to two.')
 end
     
 m=0;

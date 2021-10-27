@@ -1,6 +1,6 @@
 function pal = spatialFRAP_Pal_nd(a,b,beta0)
 
-P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_nondividing_30s.mat');
+P=load('../Import/Pal_nondividing_30s.mat');
 
 lngth=cellfun('size',P.cells,1);
 L=median(lngth)*P.pixelsize;
@@ -21,9 +21,9 @@ Df=Dc;
 Dp=0.000;
 alpha=5.4e-5;
 gamma=0.006;
-kon=1e-3;
+kon=1e-4;
 koff=1;
-N=1.9e5;
+N=3.2e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;

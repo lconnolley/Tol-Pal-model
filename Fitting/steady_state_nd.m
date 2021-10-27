@@ -18,9 +18,9 @@ Dp=0.000;
 alpha=5.4e-5;
 beta0=9.48e8; 
 gamma=0.006;
-kon=1e-3;
+kon=1e-4;
 koff=1;
-N=1.9e5;
+N=3.2e5;
     
 m=0;
 sol = pdepe(m,@pdes,@ic,@bc,x,t);      

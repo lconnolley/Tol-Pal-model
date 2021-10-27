@@ -1,3 +1,5 @@
+%plot analytical solutions to toy model for figure 2 and figure 2 - S2
+
 clear all
 
 x=-1/2:0.01:1/2;
@@ -18,17 +20,7 @@ legend
 d=trapz(x,Bout_s)
 nd=Bout_ns
 
-%%
-b=100;
-d=1;
-kappa=0.9;
-
-in = b / (b+1+(b*kappa)/d)
-
-out = (d+b*kappa) / (b*d + d + b*kappa)
-
-%%
-%Varying d
+%% varying d
 
 n=[];
 s=[];
@@ -49,8 +41,7 @@ hold off
 legend
 title('Varying the ratio of the diffusion rates, d')
 
-%%
-%Varying b
+%% varying b
 
 n=[];
 s=[];
@@ -71,8 +62,7 @@ hold off
 legend
 title('Varying the rate of exchange, b')
 
-%%
-%Varying a
+%% varying a
 
 n=[];
 s=[];
@@ -93,8 +83,7 @@ hold off
 legend
 title('Varying the rate of exchange,a')
 
-%%
-%varying b and d
+%% varying b and d
 
 dd=[(0.001:0.2:2.001)'; (2:0.5:5)']';
 aa=[(0:0.5:5)'; (5:5:40)']';
@@ -142,8 +131,7 @@ yticks([0 1 2 3 4 5])
 xlabel('Transport rate, b')
 zlabel('Total concentration of Bout')
 
-%%
-%varying a and d
+%% varying a and d
 %{
 dd=0:0.2:1.5;
 aa=0:25:600;

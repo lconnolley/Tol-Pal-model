@@ -1,6 +1,6 @@
 function Deff=effective_diff_d(a,b,beta0)
 
-P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');%Pal_dividing.mat');
+P=load('../Import/Pal_dividing_30s.mat');%Pal_dividing.mat');
 
 pal=spatialFRAP_Pal_d(a,b,beta0);
 

@@ -1,41 +1,42 @@
-%plot experimental and model kymographs for pal, TolB, and mutants
+%plot experimental and model kymographs for pal, TolB, and mutants,
+%concentration profiles and diffusion coefficients
+%plots for figure 4 and 5(a)(b)(d) and 5 - S1
 clear
 
-%%
-%load experimental data
+%% load experimental data
 
-B_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_dividing_nopeaks.mat');
-P_d=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');%Pal_dividing.mat');
+B_d=load('../Import/TolB_dividing_nopeaks.mat');
+P_d=load('../Import/Pal_dividing_30s.mat');
 
-B_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/TolB_nondiv_2s.mat');
-P_nd=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_nondividing_30s.mat');%/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/non-dividing.mat');
+B_nd=load('../Import/TolB_nondiv_2s.mat');
+P_nd=load('../Import/Pal_nondividing_30s.mat');
 
-A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
-B=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolB_dividing.mat');
+A=load('../Import/tolA_dividing.mat');
+B=load('../Import/tolB_dividing.mat');
 
-%%
-%parameters found from fitting
+%% parameters found from fitting
 z=load('fit_parameter.mat');
 %d = [a, b, beta0], a=Dc-Db, b=Dc/Db, beta0 
 d=z.d;
+Db=z.Db;
+Dc=z.Dc;
+d=z.d;
 
 xs=-1/2:0.005:1/2;
-%%
-%preprocess experimental data into same units as model data
+%% preprocess experimental data into same units as model data
 xe=-1/2:0.02:1/2;
 
 %renormalise data to tolb/pal concentration after bleach, change so 
 %normalised to 1 on x, multiply by average concentration of total tolb/pal 
 %in a cell (uM), multiply by area under bleached curve
-tolb_d=(B_d.avg/trapz(xe,B_d.avg(:,1)));%*9.96e5*B_d.factor;                 %not sure why e5 not e3
-pal_d=(P_d.avg/trapz(xe,P_d.avg(:,1)));%*99.6e5*P_d.factor;
-tolb_nd=(B_nd.avg/trapz(xe,B_nd.avg(:,1)));%*9.96e5*B_nd.factor;
-pal_nd=(P_nd.avg/trapz(xe,P_nd.avg(:,1)));%*99.6e5*P_nd.factor;
-tolA=(A.avg/trapz(xe,A.avg(:,1)));%*99.6e5*A.factor;   %beta0=0
-tolB=(B.avg/trapz(xe,B.avg(:,1)));%*99.6e5*B.factor;   %alpha=0
+tolb_d=(B_d.avg/trapz(xe,B_d.avg(:,1)));
+pal_d=(P_d.avg/trapz(xe,P_d.avg(:,1)));
+tolb_nd=(B_nd.avg/trapz(xe,B_nd.avg(:,1)));
+pal_nd=(P_nd.avg/trapz(xe,P_nd.avg(:,1)));
+tolA=(A.avg/trapz(xe,A.avg(:,1)));%beta0=0
+tolB=(B.avg/trapz(xe,B.avg(:,1)));%alpha=0
 
-%%
-%TolB dividing kymographs for experimental and model
+%% TolB dividing kymographs for experimental and model
 
 f1=spatialFRAP_TolB_d(d(1),d(2),d(3));
 f1=f1./trapz(xs,f1(:,1));
@@ -61,8 +62,7 @@ colorbar
 trapz(xe,tolb_d);
 trapz(xs,f1);
 
-%%
-%Pal dividing kymographs 
+%% Pal dividing kymographs 
 
 g1=spatialFRAP_Pal_d(d(1),d(2),d(3));
 g1=g1./trapz(xs,g1(:,1));
@@ -88,8 +88,7 @@ colorbar
 trapz(xs,g1);
 trapz(xe,pal_d);
 
-%%
-%TolB non-dividing kymographs
+%% TolB non-dividing kymographs
 
 f2=spatialFRAP_TolB_nd(d(1),d(2),d(3));
 f2=f2./trapz(xs,f2(:,1));
@@ -112,8 +111,7 @@ caxis manual
 caxis ([bottom top])
 colorbar
 
-%%
-%Pal non-dividing kymographs
+%% Pal non-dividing kymographs
 
 g2=spatialFRAP_Pal_nd(d(1),d(2),d(3));
 g2=g2./trapz(xs,g2(:,1));
@@ -136,8 +134,7 @@ caxis manual
 caxis ([bottom top])
 colorbar
 
-%%
-%tolA kymographs
+%% tolA kymographs
 
 f3=spatialFRAP_tolA_d(d(1),d(2),0);
 f3=f3./trapz(xs,f3(:,1));
@@ -160,8 +157,7 @@ caxis manual
 caxis ([bottom top])
 colorbar
 
-%%
-%tolB kymographs
+%% tolB kymographs
 
 g3=spatialFRAP_tolB_d(d(1),d(2),d(3));
 g3=g3./trapz(xs,g3(:,1));
@@ -196,10 +192,8 @@ Lnd=median(lngth)*B_nd.pixelsize;
 [w1,w2,w3,w4]=steady_state_d(d(1),d(2),d(3),Ld);
 [w10,w20,w30,w40]=steady_state_nd(d(1),d(2),d(3),Lnd);
 
-%%
+%% plot TolB concentration in inner and outer for dividing and non-dividing cells
 
-%plot TolB concentration in inner and outer for dividing and non-dividing
-%cells
 x=-1/2:0.005:1/2;
 figure(7)
 clf
@@ -216,10 +210,7 @@ title('TolB concentration profile')
 trapz(w1)
 trapz(w2)
 
-%%
-
-%plot Pal concentration in inner and outer for dividing and non-dividing
-%cells
+%% plot Pal concentration in inner and outer for dividing and non-dividing cells
 x=-1/2:0.005:1/2;
 figure(9)
 clf
@@ -238,8 +229,7 @@ title('Pal concentration profile')
 trapz(x,w1+w3+w4);
 trapz(x,w10+w30+w40);
 
-%%
-%find Pal effective difusion coefficients
+%% find Pal effective difusion coefficients
 
 %find average length of cells in um
 lngth=cellfun('size',P_d.cells,1);
@@ -282,8 +272,7 @@ Deff0=effective_diff_nd(d(1),d(2),d(3));
 DeffA=effective_diff_A(d(1),d(2),0);%tolA mutant, no sink
 DeffB=effective_diff_B(d(1),d(2),d(3));
 
-%%
-%plot model and experimental effective diffusion coefficients
+%% plot model and experimental effective diffusion coefficients
 
 x=-1/2:0.005:1/2;
 figure(8)
@@ -301,6 +290,3 @@ hold off
 ylim([0 2e-3])
 legend
 
-Deff_10=Deff;
-
-save('TolA_overexpression.mat','-append','Deff_10')

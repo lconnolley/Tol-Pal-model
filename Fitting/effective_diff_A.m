@@ -1,6 +1,6 @@
 function Deff=effective_diff_A(a,b,beta0)
 
-A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
+A=load('../Import/tolA_dividing.mat');
 
 pal=spatialFRAP_tolA_d(a,b,beta0);
 

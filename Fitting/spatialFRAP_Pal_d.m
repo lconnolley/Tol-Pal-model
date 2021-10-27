@@ -1,6 +1,6 @@
 function pal = spatialFRAP_Pal_d(a,b,beta0)
 
-P=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/MATLAB/Import/Pal_dividing_30s.mat');
+P=load('../Import/Pal_dividing_30s.mat');
 
 lngth=cellfun('size',P.cells,1);
 L=median(lngth)*P.pixelsize;
@@ -21,9 +21,9 @@ Df=Dc;              %Victor's paper
 Dp=0.000;
 alpha=5.4e-5;        %Papadakos paper
 gamma=0.006;        %Papadakos paper
-kon=1e-3;            %Colin's estimate was 1e5-1e6
+kon=1e-4;            %Colin's estimate was 1e5-1e6
 koff=1;            %Colin's estimate was 1-10
-N=1.9e5;
+N=3.2e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -33,7 +33,7 @@ bleach=interp1(-L/2:0.02*L:L/2,P.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.04*L;
+sigma=0.08;
 baseline=0;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)) + baseline;%truncated normal
 i = trapz(x,beta(mu,x));
@@ -41,10 +41,10 @@ beta=@(mu,x) 2/i*(normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu
 
 q = trapz(x,beta(mu,x));
 if q<1.99 || q>2.01
-    error('Integral of beta function not equal to one.')
+    error('Integral of beta function not equal to two.')
 end
 
-%
+%{
 figure(100)
 clf
 plot(-1/2:0.005:1/2,beta(mu,x))

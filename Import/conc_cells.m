@@ -1,7 +1,8 @@
-clear
+% plot TolA and TolB correlation with length, figure 2 - S1
 
-%%
-%load data
+clear all
+
+%% load data
 
 z_1 = load('TolB_dividing_nopeaks.mat');
 z_2 = load('TolB_nondiv_2s.mat');
@@ -19,7 +20,7 @@ for i = 1:length(z_1.cells)
     data=z_1.cells{i};
     data=data(:,1);
     l=length(data)*z_1.pixelsize;
-    conc_d=[conc_d; sum(data)/l];
+    conc_d=[conc_d; nansum(data)/l];
     lngth_d=[lngth_d; l];
 end
 
@@ -31,7 +32,7 @@ for i = 1:length(z_2.cells)
     data=z_2.cells{i};
     data=data(:,1);
     l=length(data)*z_2.pixelsize;
-    conc_nd=[conc_nd; sum(data)/l];
+    conc_nd=[conc_nd; nansum(data)/l];
     lngth_nd=[lngth_nd; l];
 end
 
@@ -41,12 +42,15 @@ clf
 scatter(lngth_nd,conc_nd)
 hold on
 scatter(lngth_d,conc_d)
-%ylim([0 1100])
+ylim([0 1100])
+%ylim([0 3.5e5])
 xlabel('Cell length (um)')
-ylabel('Total Fluorescence')
+ylabel('Mean Fluorescence')
 
-%%
-%load data
+%correlation
+[rho1, pval1] = corr([conc_nd; conc_d], [lngth_nd; lngth_d])
+
+%% load data
 clear all
 
 z_1 = load('TolA_IPTG_distribution.mat');
@@ -81,11 +85,11 @@ scatter(lngth_nd,conc_nd)
 hold on
 scatter(lngth_d,conc_d)
 xlabel('Cell length (um)')
-ylabel('Total Fluorescence')
+ylabel('Mean Fluorescence')
 ylim([0 750])
 
-%correlation
-[rho, pval] = corr([conc_nd; conc_d], [lngth_nd; lngth_d])
+%% correlation
+[rho2, pval2] = corr([conc_nd; conc_d], [lngth_nd; lngth_d])
 
 
 

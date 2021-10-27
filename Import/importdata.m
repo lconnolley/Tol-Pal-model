@@ -36,11 +36,11 @@ for j=1:size(data,2)
 end
 
 %remove any 'bad' cells
-cells{:,17}=[];%remove cell 4
-cells{:,19}=[];%remove cell 4
-cells{:,21}=[];%remove cell 4
-cells{:,22}=[];%remove cell 4
-cells{:,27}=[];%remove cell 4
+%cells{:,17}=[];%remove cell 4
+%cells{:,19}=[];%remove cell 4
+%cells{:,21}=[];%remove cell 4
+%cells{:,22}=[];%remove cell 4
+%cells{:,27}=[];%remove cell 4
 cells=cells(~cellfun('isempty',cells));
 
 end

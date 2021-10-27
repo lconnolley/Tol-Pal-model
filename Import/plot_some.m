@@ -1,20 +1,21 @@
-%plot data from multiple .mat files
+%plot data from multiple .mat files, can create plots for figure 1, figure 
+%4 - S1, figure 5(e), figure 6
 
-clear all;
+clear all
 
-%%
-%load files
+%% load files
 
 %z_1 = load('TolB_nondiv_2s.mat');
 %z_2 = load('TolB_dividing_nopeaks.mat');
-%z_1 = load('Pal_nondividing_30s.mat');
-%z_2 = load('Pal_dividing_30s.mat');
-z_1=load('Pal_0_ara.mat');
-z_2=load('Pal_02_ara.mat');
+z_1 = load('Pal_nondividing_30s.mat');
+z_2 = load('Pal_dividing_30s.mat');
+z_3 = load('tolA_dividing.mat');
+z_4 = load('tolB_dividing.mat');
+%z_1=load('Pal_0_ara.mat');
+%z_2=load('Pal_02_ara.mat');
 %z_5=load('TolB-mCherry_nondividing_1s.mat');
 
-%%
-%violin plots
+%% violin plots
 
 if size(z_1.D_median)==size(z_2.D_median)
 
@@ -34,8 +35,7 @@ else
 end
     
 
-%%
-%plot deff
+%% plot deff
 
 figure(2)
 clf
@@ -48,24 +48,23 @@ D=z_2.D;
 CI=bootci(1000,@nanmedian,D');
 shadederror(-1/2:0.02:1/2,nanmedian(D,2)',CI(1,:),CI(2,:),'Dividing')
 
-%{
+
 D=z_3.D;
 CI=bootci(1000,@nanmedian,D');
-shadederror(-1/2:0.02:1/2,nanmedian(D,2)',CI(1,:),CI(2,:),'0.02% ara')
+shadederror(-1/2:0.02:1/2,nanmedian(D,2)',CI(1,:),CI(2,:),'tolA')
 
-D=z_4.D;
-CI=bootci(1000,@nanmedian,D');
-shadederror(-1/2:0.02:1/2,nanmedian(D,2)',CI(1,:),CI(2,:),'0.2% ara')
-ylim([0 2e-3])
-%}
+%D=z_4.D;
+%CI=bootci(1000,@nanmedian,D');
+%shadederror(-1/2:0.02:1/2,nanmedian(D,2)',CI(1,:),CI(2,:),'tolB')
 %ylim([0 2e-3])
+
+ylim([0 2e-3])
 hold off
 legend;
 xlabel('Relative Position')
 ylabel('Effective diffusion constant (\mu m^2/s)')
 
-%%
-%plot kymogrpahs
+%% plot kymogrpahs
 
 guess=1e-3/(z_1.binfact*z_1.pixelsize)^2; %in units of binned pixels
 

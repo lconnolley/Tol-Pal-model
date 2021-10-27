@@ -16,14 +16,14 @@ Df=Dc;
 Dp=0.00;
 alpha=0;
 gamma=0.006;
-kon=1e-3;
+kon=1e-4;
 koff=10;
-N=1.9e5;
+N=3.2e5;
 
 
 %shape of sink, beta
 mu=0;
-sigma=0.04*L;
+sigma=0.08;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2

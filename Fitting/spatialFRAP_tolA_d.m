@@ -1,6 +1,6 @@
 function pal = spatialFRAP_tolA_d(a,b,beta0)
 
-A=load('/home/connolleyl/Documents/ownCloud/Tol-Pal/TolPal/tolA_dividing.mat');
+A=load('../Import/tolA_dividing.mat');
 
 lngth=cellfun('size',A.cells,1);
 L=median(lngth)*A.pixelsize;
@@ -22,9 +22,9 @@ Dp=0.000;
 alpha=5.4e-5;
 beta0=0;%tolA mutant, no sink
 gamma=0.006;
-kon=1e-3;
+kon=1e-4;
 koff=1;       
-N=1.9e5;
+N=3.2e5;
 
 %define xcopy to get around limitations defining initial conditions
 xcopy = x;
@@ -34,14 +34,14 @@ bleach=interp1(-L/2:0.02*L:L/2,A.bleach,x);
 
 %shape of sink, beta
 mu=0;
-sigma=0.04*L;
+sigma=0.08;
 beta=@(mu,x) normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma));%truncated normal
 i = trapz(x,beta(mu,x));
 beta=@(mu,x) 2/i*normpdf((x-mu)/sigma)/sigma/(normcdf((L-mu)/sigma)-normcdf(-mu/sigma)); %normalise to 2
 
 q = trapz(x,beta(mu,x));
 if q<1.99 || q>2.01
-    error('Integral of beta function not equal to one.')
+    error('Integral of beta function not equal to two.')
 end
     
 m=0;
