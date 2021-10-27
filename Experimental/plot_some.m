@@ -5,15 +5,15 @@ clear all
 
 %% load files
 
-%z_1 = load('TolB_nondiv_2s.mat');
-%z_2 = load('TolB_dividing_nopeaks.mat');
-z_1 = load('Pal_nondividing_30s.mat');
-z_2 = load('Pal_dividing_30s.mat');
-z_3 = load('tolA_dividing.mat');
-z_4 = load('tolB_dividing.mat');
-%z_1=load('Pal_0_ara.mat');
-%z_2=load('Pal_02_ara.mat');
-%z_5=load('TolB-mCherry_nondividing_1s.mat');
+%z_1 = load('../Import/TolB_nondiv_2s.mat');
+%z_2 = load('../Import/TolB_dividing_nopeaks.mat');
+z_1 = load('../Import/Pal_nondividing_30s.mat');
+z_2 = load('../Import/Pal_dividing_30s.mat');
+z_3 = load('../Import/tolA_dividing.mat');
+z_4 = load('../Import/tolB_dividing.mat');
+%z_1=load('../Import/Pal_0_ara.mat');
+%z_2=load('../Import/Pal_02_ara.mat');
+%z_5=load('../Import/TolB-mCherry_nondividing_1s.mat');
 
 %% violin plots
 

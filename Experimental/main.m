@@ -3,14 +3,14 @@ clear all
 
 %% give details of excel file
 
-name='frap pal-mch WT dividing.xlsx';%excel filename
+name='../Import/frap pal-mch WT dividing.xlsx';%excel filename
 last=23;%number of pages in excel file
 pxlsz=0.0976;%pixelsize of microscope used
 
 t=0:30:600;%time fluorescence is recorded for
 binfact=1;%adjust for oversampling from confocal microscope
 
-mat_name='Pal_dividing_30s.mat';%name of .mat file to save to
+mat_name='../Import/Pal_dividing_30s.mat';%name of .mat file to save to
 
 %% if .mat file already exists, load this and plot data
 if exist(mat_name,'file')

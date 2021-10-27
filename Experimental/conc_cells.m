@@ -4,8 +4,8 @@ clear all
 
 %% load data
 
-z_1 = load('TolB_dividing_nopeaks.mat');
-z_2 = load('TolB_nondiv_2s.mat');
+z_1 = load('../Import/TolB_dividing_nopeaks.mat');
+z_2 = load('../Import/TolB_nondiv_2s.mat');
 
 %z_1 = load('Pal_dividing_30s.mat');
 %z_2 = load('Pal_nondividing_30s.mat');

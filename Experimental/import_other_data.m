@@ -2,7 +2,7 @@ clear all
 
 for i=1:8
     
-    data=xlsread('tolA distribution raw.xlsx',i);
+    data=xlsread('../Import/tolA distribution raw.xlsx',i);
     data=data(3:end,2:end);
     
     for j=1:size(data,2)%cell
@@ -23,5 +23,5 @@ tolA_05_nd=cells(6,:);
 tolA_50_d=cells(7,:);
 tolA_50_nd=cells(8,:);
 
-save('TolA_IPTG_distribution.mat','tolA*','cell_lengths','cells')
+save('../Import/TolA_IPTG_distribution.mat','tolA*','cell_lengths','cells')
 
