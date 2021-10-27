@@ -34,21 +34,28 @@ Functions:
 Scripts:
 
 - fit_pal.m, makes use of functions to fit the experimental data to the full model
-- plot_all, takes the results from fitting and plots kymographs, concentration profiles, and effective diffusion coefficients
+- plot_all.m, takes the results from fitting and plots kymographs, concentration profiles, and effective diffusion coefficients
 
 .MAT files:
 
 -fit_parameter.mat, stores the results of fitting
 
-Import folder contains all of the experimental data and files to plot it
+Import folder contains all of the experimental data 
+
+.MAT files:
+
+- *.mat, MATLAB data files with fluorescence data, the pixel size and the binning factor to use, as well as the produced results
+
+
+Experimental folder contains files to plot all of the experimental data in Import
 
 Functions:
 
 - bindata.m, smoothen the data in column array by place it in bins and taking the mean
-- fit_all_cells, runs fitkymo.m on all cells in a dataset, also calculates the median Deff for each cell and the average scaled signal from all cells
+- fit_all_cells.m, runs fitkymo.m on all cells in a dataset, also calculates the median Deff for each cell and the average scaled signal from all cells
 - fitkymo.m, uses "patternsearch" from MATLAB's optimisation toolbox to find the diffusion coefficient giving the best fit to the data, for comparison, uses the standard Fickian model of diffusion as well as Fokker-Planck diffusion
 - immsre.m, the mean square relative error between two matrices (based on MATLAB's immse.m)
-- import_data.m, reads data from excel files into a cell
+- importdata.m, reads data from excel files into a cell
 - plot_data.m, plot the results for a single dataset, also plots the average kymograph and the best fit to the average
 - shadederror.m, plot error bars as shading
 - spatialFRAP.m, uses MATLAB's PDE solver to return a simulated kymorgraph given the intial data and diffusion coefficient, which may vary spatially
@@ -59,10 +66,6 @@ Scripts:
 - conc_cells.m, finds the correlation between concentration and cell length
 - import_other_data.m, imports data from excel files and saves it in a .mat file
 - main.m, calls functions to import data from an excel file, process and plot this data and save the results in a .mat file, if .mat file already exists then plots existing data
-- plot_some, plots the results of data from multiple datasets, plots the average kymograph, violin plot and effective diffusion coefficient
+- plot_some.m, plots the results of data from multiple datasets, plots the average kymograph, violin plot and effective diffusion coefficient
 - TolA_dist.m, loads TolA overexpression .mat file and plots data
-
-.MAT files:
-
-- *.mat, MATLAB data files with fluorescence data, the pixel size and the binning factor to use, as well as the produced results
 
