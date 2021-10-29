@@ -1,6 +1,6 @@
 function Deff=effective_diff_B(a,b,beta0)
 
-B=load('../Import/tolB_dividing.mat');
+B=load('../Experimental/tolB_dividing.mat');
 
 pal=spatialFRAP_tolB_d(a,b,beta0);
 

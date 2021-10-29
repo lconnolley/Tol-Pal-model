@@ -1,6 +1,6 @@
 function pal = spatialFRAP_tolB_d(a,b,beta0)
 
-B=load('../Import/tolB_dividing.mat');
+B=load('../Experimental/tolB_dividing.mat');
 
 lngth=cellfun('size',B.cells,1);
 L=median(lngth)*B.pixelsize;

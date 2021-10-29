@@ -5,14 +5,14 @@ clear
 
 %% load experimental data
 
-B_d=load('../Import/TolB_dividing_nopeaks.mat');
-P_d=load('../Import/Pal_dividing_30s.mat');
+B_d=load('../Experimental/TolB_dividing_nopeaks.mat');
+P_d=load('../Experimental/Pal_dividing_30s.mat');
 
-B_nd=load('../Import/TolB_nondiv_2s.mat');
-P_nd=load('../Import/Pal_nondividing_30s.mat');
+B_nd=load('../Experimental/TolB_nondiv_2s.mat');
+P_nd=load('../Experimental/Pal_nondividing_30s.mat');
 
-A=load('../Import/tolA_dividing.mat');
-B=load('../Import/tolB_dividing.mat');
+A=load('../Experimental/tolA_dividing.mat');
+B=load('../Experimental/tolB_dividing.mat');
 
 %% parameters found from fitting
 z=load('fit_parameter.mat');

@@ -4,8 +4,8 @@ clear all
 %%
 %load experimental data
 
-P_d=load('../Import/Pal_dividing_30s.mat');
-P_nd=load('../Import/Pal_nondividing_30s.mat');
+P_d=load('../Experimental/Pal_dividing_30s.mat');
+P_nd=load('../Experimental/Pal_nondividing_30s.mat');
 
 %% preprocess experimental data so in correct form to fit to
 

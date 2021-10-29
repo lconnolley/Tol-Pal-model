@@ -1,6 +1,6 @@
 function pal = spatialFRAP_Pal_d(a,b,beta0)
 
-P=load('../Import/Pal_dividing_30s.mat');
+P=load('../Experimental/Pal_dividing_30s.mat');
 
 lngth=cellfun('size',P.cells,1);
 L=median(lngth)*P.pixelsize;

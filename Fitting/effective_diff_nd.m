@@ -1,6 +1,6 @@
 function Deff=effective_diff_nd(a,b,beta0)
 
-P=load('../Import/Pal_nondividing_30s.mat');
+P=load('../Experimental/Pal_nondividing_30s.mat');
 
 pal=spatialFRAP_Pal_nd(a,b,beta0);
 
