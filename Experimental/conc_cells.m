@@ -4,7 +4,7 @@ clear all
 
 %% load data
 
-z_1 = load('../Experimental/TolB_dividing_nopeaks.mat');
+z_1 = load('../Experimental/TolB_dividing.mat');
 z_2 = load('../Experimental/TolB_nondiv_2s.mat');
 
 %z_1 = load('../Import/Pal_dividing_30s.mat');
@@ -49,47 +49,5 @@ ylabel('Mean Fluorescence')
 
 %correlation
 [rho1, pval1] = corr([conc_nd; conc_d], [lngth_nd; lngth_d])
-
-%% load data
-clear all
-
-z_1 = load('../Import/TolA_IPTG_distribution.mat');
-
-%%
-
-conc_d=[];
-lngth_d=[];
-
-for i = 1:84
-    
-    data=z_1.tolA_chr_d{i};
-    l=length(data);
-    conc_d=[conc_d; nansum(data)/l];
-    lngth_d=[lngth_d; l*0.117];
-end
-
-conc_nd=[];
-lngth_nd=[];
-
-for i = 1:104
-    
-    data=z_1.tolA_chr_nd{i};
-    l=length(data);
-    conc_nd=[conc_nd; nansum(data)/l];
-    lngth_nd=[lngth_nd; l*0.117];
-end
-
-figure(2)
-clf
-scatter(lngth_nd,conc_nd)
-hold on
-scatter(lngth_d,conc_d)
-xlabel('Cell length (um)')
-ylabel('Mean Fluorescence')
-ylim([0 750])
-
-%% correlation
-[rho2, pval2] = corr([conc_nd; conc_d], [lngth_nd; lngth_d])
-
 
 
