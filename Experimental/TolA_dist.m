@@ -2,7 +2,7 @@
 
 clear all
 
-load('../Import/TolA_ara_distribution.mat')
+load('../Experimental/TolA_ara_distribution.mat')
 
 %% sort data
 
