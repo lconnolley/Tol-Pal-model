@@ -41,14 +41,7 @@ Scripts:
 
 -fit_parameter.mat, stores the results of fitting
 
-**Import** folder contains all of the experimental data 
-
-.MAT files:
-
-- *.mat, MATLAB data files with fluorescence data, the pixel size and the binning factor to use, as well as the produced results
-
-
-**Experimental** folder contains files to plot all of the experimental data in Import
+**Experimental** folder contains all of the experimental data and files to plot it
 
 Functions:
 
@@ -70,4 +63,8 @@ Scripts:
 - main.m, calls functions to import data from an excel file, process and plot this data and save the results in a .mat file, if .mat file already exists then plots existing data
 - plot_some.m, plots the results of data from multiple datasets, plots the average kymograph, violin plot and effective diffusion coefficient
 - TolA_dist.m, loads TolA overexpression .mat file and plots data
+
+.MAT files:
+
+- *.mat, MATLAB data files with fluorescence data, the pixel size and the binning factor to use, as well as the produced results. Pal_dividing_30s.mat, Pal in dividing WT cells. Pal_nondividing_30s.mat, Pal in non-dividing WT cells. TolA_ara_distribution.mat, Pal fluorescence at varying levels of TolA overexpression. tolA_dividing.mat, delta-tolA/pGFP-tolA(H22A) dividing cells. tolAKO_dividing.mat, delta-tolA dividing cells. TolB_dividing.mat, TolB in dividing WT cells, TolB_nondiv_2s.mat, TolB in non-dividing WT cells.   
 

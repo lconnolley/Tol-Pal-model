@@ -5,7 +5,7 @@ clear
 
 %% load experimental data
 
-B_d=load('../Experimental/TolB_dividing_nopeaks.mat');
+B_d=load('../Experimental/TolB_dividing.mat');
 P_d=load('../Experimental/Pal_dividing_30s.mat');
 
 B_nd=load('../Experimental/TolB_nondiv_2s.mat');
